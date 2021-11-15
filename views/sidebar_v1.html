@@ -1,0 +1,25 @@
+<header>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" routerLink="/loading">
+				<h6 style="margin-bottom:1px;color:white;" *ngIf="title!=null">{{title}}</h6>
+				<h6 style="margin-bottom:1px;color:white;font-size:14px;" *ngIf="subtitle!=null">{{subtitle}}</h6>
+			</a>
+			<ul class="navbar-nav ml-auto"  style="flex-direction:row;">
+				<li class="nav-item" style="cursor:pointer;color:white;margin-right:15px;">
+					<a class="nav-link" aria-current="page" (click)="goApps()">
+						<img src="assets/images/dashboard.svg"/>&nbsp;
+						<span class="clearfix d-none d-sm-inline-block">Apps</span>
+					</a>
+				</li>
+				<li class="nav-item" style="cursor:pointer;color:white;">
+					<a class="nav-link" aria-current="page" (click)="signOut()">
+						<img src="assets/images/logout.svg"/>&nbsp;
+						<span class="clearfix d-none d-sm-inline-block">Salir
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</header>
