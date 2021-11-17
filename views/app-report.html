@@ -1,0 +1,205 @@
+<sidebar></sidebar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje"></msg-component> 
+		<div  class="row">
+    		<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:right;" *ngIf="mostrarCrear">
+				<button type="button" class="btn btn-primary btn-lg font-regular" routerLink="/app-create">
+					<img src="assets/images/add.svg" width="20px"/>&nbsp;Nuevo
+				</button>
+			</div>
+    	</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form id="buscar-apps" style="border:1px solid #ccc; background:#F5F5F5;padding:5px;border-radius:5px;margin-top:10px;padding:10px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="init" name="init" [(ngModel)]="init">
+								<label for="init">Fecha creación(inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="end" name="end" [(ngModel)]="end">
+								<label for="end">Fecha creación(fin)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="name" name="name" [(ngModel)]="name" maxlength="50">
+								<label for="name">Nombre</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="package_name" name="package_name" [(ngModel)]="package_name" maxlength="50">
+								<label for="package_name">Nombre del Paquete</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<select class="form-select filtro-busqueda" id="status" name="status" aria-label="Seleccione el estatus" [(ngModel)]="status">
+									<option *ngFor="let item of listStatus let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="status">Estatus</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:right;">
+							<button type="button" class="btn btn-outline-dark btn-md" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-primary btn-md" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+						
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+					<table id="table-emisor" class="table table-hover table-mc-light-blue">
+						<thead>
+							<tr>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;padding-left:10px;">Fecha creación</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;padding-left:10px;">Icono</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;padding-left:10px;">Nombre</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;padding-left:10px;">Nombre del paquete</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;padding-left:10px;">Descripción</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;padding-left:10px;">Estatus</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of listRegister let i = index;">
+								<td data-title="Fecha" *ngIf="item.date_created_at!=null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									&nbsp;{{item.date_created_at}}
+								</td>
+								<td data-title="Fecha" *ngIf="item.date_created_at==null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									
+								</td>
+								<td data-title="Icono" *ngIf="item.icon!=null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									<img [src]="item.icon" width="40px" >
+								</td>
+								<td data-title="Icono" *ngIf="item.icon==null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									
+								</td>
+								<td data-title="Nombre" *ngIf="item.name!=null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;word-break: break-all;"scope="row">
+									&nbsp;{{item.name}}
+								</td>
+								<td data-title="Nombre" *ngIf="item.name==null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;word-break: break-all;"scope="row">
+									
+								</td>
+								<td data-title="Paquete" *ngIf="item.package_name!=null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									&nbsp;{{item.package_name}}
+								</td>
+								<td data-title="Paquete" *ngIf="item.package_name==null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									
+								</td>
+								<td data-title="Descripción" *ngIf="item.brief_description!=null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									&nbsp;{{item.brief_description}}
+								</td>
+								<td data-title="Descripción" *ngIf="item.brief_description==null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row">
+									
+								</td>
+								<td data-title="Estatus" *ngIf="item.status!=null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;word-break: break-all;"scope="row">
+									&nbsp;{{item.status}}
+								</td>
+								<td data-title="Estatus" *ngIf="item.status==null" class="font-regular" style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;word-break: break-all;"scope="row">
+									
+								</td>
+								<td style="padding:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row">
+									<div class="btn-group" role="group" style="padding-left:0px;padding-right:0px;margin-bottom:5px;text-align:right;">
+										<div class="dropdown" *ngIf="item.actions!=null && item.actions.length!=0">
+											<button class="btn btn-secondary dropdown-toggle" type="button" name="dropdownName{{i}}" id="dropdownMenu{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
+												<img src="assets/images/add.svg" width="20px"/>
+											</button>
+											<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+												<li (click)="selectedAction(item,item1)" style="cursor:pointer;"  *ngFor="let item1 of item.actions; let j = index;">
+													<a class="dropdown-item">{{item1.functionality_detail}}</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<custom-table 
+						[size]="pagingActual.count"
+						[labelSize]="'Total'"
+						[alignSize]="'alignRight'"
+						[totalPage]="detallePorPagina"
+						[totalPageRecords]="totalPage"
+						[pageSelected]="pageSelected"
+						(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+						(valueFirst)="getValueFirst($event)"
+						(valuePrevious)="getValuePrevious($event)"
+						(valueNext)="getValueNext($event)"
+						(valueLast)="getValueLast($event)"
+						(valueChangeRecords)="getValueChangeRecords($event)"
+					>
+					</custom-table>	
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+				<h3 class="font-bold" style="color:#d0d6e2;">No hay registros</h3>
+			</div>
+		</div>
+	</div>
+</main>
+<div class="modal" tabindex="-1" id="modalDeleteApp">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Eliminar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">Desea eliminar la aplicación de nombre <b class="font-bold">{{dataSelected.name}}</b> con nombre del paquete <b class="font-bold">{{dataSelected.package_name}}</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="deleteData()">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalActivateApp">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Activar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">¿Desea activar la aplicación de nombre <b class="font-bold">{{dataSelected.name}}</b> con nombre del paquete <b class="font-bold">{{dataSelected.package_name}}?</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary" (click)="activateApp()">Activar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalDesactivateApp">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Desactivar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">¿Desea desactivar la aplicación de nombre <b class="font-bold">{{dataSelected.name}}</b> con nombre del paquete <b class="font-bold">{{dataSelected.package_name}}?</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="desactivateApp()">Desactivar</button>
+			</div>
+		</div>
+	</div>
+</div>
