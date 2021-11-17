@@ -27,20 +27,6 @@
 		this.checkRol();
 	}
 
-	app.UploadVersionComponent.prototype.ngOnChange=function(){
-		console.log('hay un cambio')
-		this.title=_("title23");
-		this.file=null;
-		this.type=null;
-		this.status=null;
-		this.fileSelected=null;
-		this.version=null;
-		this.mensaje = ''
-		this.msg = null
-		this.listType=[{value:"REQUIRED",name:"Requerido"},{value:"OPTIONAL",name:"Opcional"},{value:"SILENT",name:"Silenciosa"}];
-		this.listStatus=[{value:"ACTIVE",name:"Activo"},{value:"INACTIVE",name:"Inactivo"}];
-		this.titleArchivo="Seleccione el archivo";
-	}
 
 	app.UploadVersionComponent.prototype.ngOnDestroy=function(){
 		this.title=_("title23");
@@ -133,7 +119,6 @@
 
 		let mensajeAll = _("message_dflt_42");
 		request.subscribe(data => {
-			console.log(data)
 			if (data == null || data == undefined || data == "") {
 				this.mensaje = mensajeAll;
 				this.msg.error();
@@ -269,13 +254,10 @@
 						
 						let offset2 = 0
 						let arr = []
-						console.log(buffer)
-						console.log(numberofChunks)
 						for(var i = 0; i < buffer.length; i+=chunkSize){
 							
 							arr.push(buffer.slice(i, i+chunkSize))
 							
-							console.log(i+chunkSize)
 						}
 						
 						
@@ -284,7 +266,6 @@
 						var continueF = null
 						continueF = await new Promise(async (resolve) => {
 							let files = arr[i]
-							console.log(files)
 							offset+=chunkSize
 						
 							let current = files.length
@@ -393,7 +374,7 @@
 		element.style.background='green'
 		element.style.width = percent+'%'
 		element.innerText = percent+'%'
-		console.log(percent+'%')
+		
 		
 	}
 app.UploadVersionComponent.prototype.resetValuesSendVersion=function(){
